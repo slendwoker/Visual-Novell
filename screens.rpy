@@ -237,26 +237,30 @@ style choice_button_text is default:
 ## внеигровым меню.
 
 screen quick_menu():
-
+    imagebutton idle "gui/IconsButt/back.png" hover "gui/IconsButt/backOK.png" xpos 1030 ypos 640 action Rollback()
+    imagebutton idle "gui/IconsButt/history.png" hover "gui/IconsButt/historyOK.png" xpos 1135 ypos 546  action ShowMenu('history')
+    imagebutton idle "gui/IconsButt/setings.png" hover "gui/IconsButt/setingsOK.png" xpos 1030 ypos 540  action ShowMenu('preferences')
+    imagebutton idle "gui/IconsButt/save.png" hover "gui/IconsButt/saveOK.png" xpos 1077 ypos 585  action ShowMenu('save')
+    imagebutton idle "gui/IconsButt/skip.png" hover "gui/IconsButt/skipOK.png" xpos 1140 ypos 640  action Skip() alternate Skip(fast=True, confirm=True)
     ## Гарантирует, что оно появляется поверх других экранов.
     zorder 100
 
-    if quick_menu:
+    #if quick_menu:
 
-        hbox:
-            style_prefix "quick"
+        #hbox:
+            #style_prefix "quick"
 
-            xalign 0.5
-            yalign 1.0
+            #xalign 0.5
+            #yalign 1.0
 
-            textbutton _("Назад") action Rollback()
-            textbutton _("История") action ShowMenu('history')
-            textbutton _("Пропуск") action Skip() alternate Skip(fast=True, confirm=True)
-            textbutton _("Авто") action Preference("auto-forward", "toggle")
-            textbutton _("Сохранить") action ShowMenu('save')
-            textbutton _("Б.Сохр") action QuickSave()
-            textbutton _("Б.Загр") action QuickLoad()
-            textbutton _("Опции") action ShowMenu('preferences')
+            #textbutton _("Назад") action Rollback()
+            #textbutton _("История") action ShowMenu('history')
+            #textbutton _("Пропуск") action Skip() alternate Skip(fast=True, confirm=True)
+            #textbutton _("Авто") action Preference("auto-forward", "toggle")
+            #textbutton _("Сохранить") action ShowMenu('save')
+            #textbutton _("Б.Сохр") action QuickSave()
+            #textbutton _("Б.Загр") action QuickLoad()
+            #textbutton _("Опции") action ShowMenu('preferences')
 
 
 ## Данный код гарантирует, что экран быстрого меню будет показан в игре в любое
@@ -316,14 +320,6 @@ screen navigation():
         elif not main_menu:
 
             textbutton _("Главное меню") action MainMenu()
-
-        textbutton _("Об игре") action ShowMenu("about")
-
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
-            ## Помощь не необходима и не относится к мобильным устройствам.
-            textbutton _("Помощь") action ShowMenu("help")
-
         if renpy.variant("pc"):
 
             ## Кнопка выхода блокирована в iOS и не нужна на Android и в веб-
@@ -355,15 +351,14 @@ screen main_menu():
     tag menu
 
     imagemap:
-        ground "images/GUI/button_menu.png"
-        idle "images/GUI/button_idle1.png"
-        hover "images/GUI/button_hover2.png"
-        hotspot(47,21,264,128) action Start()
-        hotspot(45,140,264,248) action ShowMenu("load")
-        hotspot(46,262,263,369) action ShowMenu("preferences")
-        hotspot(49,384,267,490) action ShowMenu("about")
-        hotspot(59,595,277,703) action Quit(confirm=True)
-
+        ground "gui/main_menu.png"
+        idle "images/GUI/menu_norm_idle.png"
+        hover "images/GUI/menu_slom_hover.png"
+        hotspot(152, 40, 300, 100) action Start()
+        hotspot(14, 160, 235, 130) action ShowMenu("load")
+        hotspot(169, 296, 225, 120) action ShowMenu("preferences")
+        hotspot(12, 429, 230, 130) action ShowMenu("about")
+        hotspot(166, 591, 220, 120) action Quit(confirm=True)
 
 style main_menu_frame is empty
 style main_menu_vbox is vbox
@@ -545,14 +540,14 @@ screen about():
 
         vbox:
 
-            label "[config.name!t]"
-            text _("Версия [config.version!t]\n")
+            #label "[config.name!t]"
+            #text _("Версия [config.version!t]\n")
 
             ## gui.about обычно установлено в options.rpy.
             if gui.about:
                 text "[gui.about!t]\n"
 
-            text _("Сделано с помощью {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
+            #text _("Сделано с помощью {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
 
 
 style about_label is gui_label
@@ -664,15 +659,15 @@ screen file_slots(title):
 
                     textbutton _(">") action FilePageNext()
 
-                if config.has_sync:
-                    if CurrentScreenName() == "save":
-                        textbutton _("Синхронизация загрузки"):
-                            action UploadSync()
-                            xalign 0.5
-                    else:
-                        textbutton _("Скачать Sync"):
-                            action DownloadSync()
-                            xalign 0.5
+                #if config.has_sync:
+                    #if CurrentScreenName() == "save":
+                        #textbutton _("Синхронизация загрузки"):
+                            #action UploadSync()
+                            #xalign 0.5
+                    #else:
+                        #textbutton _("Скачать Sync"):
+                            #action DownloadSync()
+                            #xalign 0.5
 
 
 style page_label is gui_label
@@ -732,12 +727,7 @@ screen preferences():
                         textbutton _("Оконный") action Preference("display", "window")
                         textbutton _("Полный") action Preference("display", "fullscreen")
 
-                vbox:
-                    style_prefix "check"
-                    label _("Пропуск")
-                    textbutton _("Всего текста") action Preference("skip", "toggle")
-                    textbutton _("После выборов") action Preference("after choices", "toggle")
-                    textbutton _("Переходов") action InvertSelected(Preference("transitions", "toggle"))
+               
 
                 ## Дополнительные vbox'ы типа "radio_pref" или "check_pref"
                 ## могут быть добавлены сюда для добавления новых настроек.
@@ -748,15 +738,7 @@ screen preferences():
                 style_prefix "slider"
                 box_wrap True
 
-                vbox:
-
-                    label _("Скорость текста")
-
-                    bar value Preference("text speed")
-
-                    label _("Скорость авточтения")
-
-                    bar value Preference("auto-forward time")
+              
 
                 vbox:
 
@@ -775,23 +757,6 @@ screen preferences():
 
                             if config.sample_sound:
                                 textbutton _("Тест") action Play("sound", config.sample_sound)
-
-
-                    if config.has_voice:
-                        label _("Громкость голоса")
-
-                        hbox:
-                            bar value Preference("voice volume")
-
-                            if config.sample_voice:
-                                textbutton _("Тест") action Play("voice", config.sample_voice)
-
-                    if config.has_music or config.has_sound or config.has_voice:
-                        null height gui.pref_spacing
-
-                        textbutton _("Без звука"):
-                            action Preference("all mute", "toggle")
-                            style "mute_all_button"
 
 
 style pref_label is gui_label
