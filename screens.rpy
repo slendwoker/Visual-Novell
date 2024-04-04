@@ -115,8 +115,8 @@ screen say(who, what):
     ## места.
     if not renpy.variant("small"):
         add SideImage() xalign 0.0 yalign 1.0
-
-
+    if qm_togle == True:
+        use quick_menu
 ## Делает namebox доступным для стилизации через объект Character.
 init python:
     config.character_id_prefixes.append('namebox')
@@ -161,7 +161,6 @@ style say_dialogue:
     ypos gui.dialogue_ypos
 
     adjust_spacing False
-
 ## Экран ввода #################################################################
 ##
 ## Этот экран используется, чтобы показывать renpy.input. Это параметр запроса,
@@ -265,19 +264,19 @@ screen quick_menu():
 
 ## Данный код гарантирует, что экран быстрого меню будет показан в игре в любое
 ## время, если только игрок не скроет интерфейс.
-init python:
-    config.overlay_screens.append("quick_menu")
+#init python:
+    #config.overlay_screens.append("quick_menu")
 
-default quick_menu = True
+#default quick_menu = True
 
-style quick_button is default
-style quick_button_text is button_text
+#style quick_button is default
+#style quick_button_text is button_text
 
-style quick_button:
-    properties gui.button_properties("quick_button")
+#style quick_button:
+    #properties gui.button_properties("quick_button")
 
-style quick_button_text:
-    properties gui.text_properties("quick_button")
+#style quick_button_text:
+    #properties gui.text_properties("quick_button")
 
 
 ################################################################################
@@ -713,7 +712,6 @@ screen preferences():
     tag menu
 
     use game_menu(_("Настройки"), scroll="viewport"):
-
         vbox:
 
             hbox:
@@ -726,8 +724,15 @@ screen preferences():
                         label _("Режим экрана")
                         textbutton _("Оконный") action Preference("display", "window")
                         textbutton _("Полный") action Preference("display", "fullscreen")
+                        label _("Курсоры")
+                        hbox:
+                            imagebutton idle "gui/cursors/cursorglav1.png" hover "gui/cursors/cursorglav1_hover.png" xpos 10 ypos 20 action SetVariable("default_mouse", "one")
+                            imagebutton idle "gui/cursors/cursorglav2.png" hover "gui/cursors/cursorglav2_hover.png" xpos 70 ypos 20 action SetVariable("default_mouse", "two")
+                            imagebutton idle "gui/cursors/cursorglav3.png" hover "gui/cursors/cursorglav3_hover.png" xpos 130 ypos 20 action SetVariable("default_mouse", "three")
+                            imagebutton idle "gui/cursors/pica.png" hover "gui/cursors/pica_hover.png" xpos 190 ypos 20 action SetVariable("default_mouse", "pica")
 
-               
+             
+
 
                 ## Дополнительные vbox'ы типа "radio_pref" или "check_pref"
                 ## могут быть добавлены сюда для добавления новых настроек.
